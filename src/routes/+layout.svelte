@@ -2,6 +2,7 @@
 	import '../app.css';
 	import { invalidate } from '$app/navigation'
   	import { onMount } from 'svelte'
+	import CustomAlert from '$lib/custom/customAlert.svelte';
   	let { data, children } = $props()
   	let { session, supabase } = $derived(data)
   	onMount(() => {
@@ -14,4 +15,5 @@
   	})
 </script>
 
+<CustomAlert />
 {@render children()}
