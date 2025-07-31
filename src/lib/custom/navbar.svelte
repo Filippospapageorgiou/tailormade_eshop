@@ -155,7 +155,7 @@
 								<a
 									use:motion
 									class="[&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 inline-flex h-8 items-center justify-center gap-2 rounded-md border border-primary bg-radial-[at_52%_-52%] from-primary/70 to-primary/95 px-3 text-xs font-medium whitespace-nowrap text-primary-foreground shadow-md ring-0 inset-shadow-2xs shadow-zinc-950/30 inset-shadow-white/25 transition-[filter] duration-200 **:[text-shadow:0_1px_0_var(--color-primary)] hover:brightness-125 focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-hidden active:brightness-95 disabled:pointer-events-none disabled:opacity-50 dark:border-0 dark:from-primary dark:to-primary/70 dark:inset-shadow-white dark:hover:to-primary"
-									href="/">Sign Up</a
+									href="/auth/signup">Sign Up</a
 								>
 							</Motion>
 						</div>
@@ -212,7 +212,7 @@
 									>
 									<a
 										class="[&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 inline-flex h-8 items-center justify-center gap-2 rounded-md border border-primary bg-radial-[at_52%_-52%] from-primary/70 to-primary/95 px-3 text-xs font-medium whitespace-nowrap text-primary-foreground shadow-md ring-0 inset-shadow-2xs shadow-zinc-950/30 inset-shadow-white/25 transition-[filter] duration-200 **:[text-shadow:0_1px_0_var(--color-primary)] hover:brightness-125 focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-hidden active:brightness-95 disabled:pointer-events-none disabled:opacity-50 dark:border-0 dark:from-primary dark:to-primary/70 dark:inset-shadow-white dark:hover:to-primary"
-										href="/">Sign Up</a
+										href="/auth/signup">Sign Up</a
 									>
 								</div>
 							</Motion>
