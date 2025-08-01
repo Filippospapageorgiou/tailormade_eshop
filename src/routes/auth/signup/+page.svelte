@@ -4,7 +4,6 @@
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
 	import { toast } from '$lib/stores/toast.svelte';
-	import { Coffee, UserPlus } from 'lucide-svelte';
 
 	let { form } = $props();
 

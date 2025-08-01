@@ -3,6 +3,8 @@
 	import { Menu, X, ChevronDown } from 'lucide-svelte';
 	import { cn } from '$lib/utils';
 
+	let { data } = $props();
+
 	let logo = $state('/logo.png');
 	let isMenuOpen = $state(false);
 
