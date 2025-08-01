@@ -1,12 +1,16 @@
 <script lang="ts">
 	import { Motion, useAnimation } from 'svelte-motion';
-	import { Menu, X, ChevronDown } from 'lucide-svelte';
+	import { Menu, X, ChevronDown, ShoppingCart } from 'lucide-svelte';
 	import { cn } from '$lib/utils';
+	import CoffeeAvatar from './CoffeeAvatar.svelte';
 
 	let { data } = $props();
 
 	let logo = $state('/logo.png');
 	let isMenuOpen = $state(false);
+
+	// Get user from data
+	const { user } = $derived(data);
 
 	const menuItems = $state([
 		{ title: 'Franchise', path: '/', hasDropdown: false },
@@ -141,30 +145,76 @@
 						</ul>
 					</div>
 
-					<!-- Cart and Auth Buttons -->
+					<!-- Right Side: Avatar/Auth + Cart + Mobile Menu -->
 					<div class="flex items-center gap-3">
-						<!-- Auth Buttons - Desktop -->
-						<div class="hidden items-center gap-3 sm:flex">
-							<Motion whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} let:motion>
-								<a
+						<!-- Cart Icon - Always visible when user is logged in, desktop only when not logged in -->
+						{#if user}
+							<Motion whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} let:motion>
+								<button
 									use:motion
-									class="[&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 inline-flex h-8 items-center justify-center gap-2 rounded-md border border-zinc-300 bg-linear-to-t from-muted to-background px-3 text-xs font-medium whitespace-nowrap shadow-xs shadow-zinc-950/10 transition-colors duration-200 hover:to-muted focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50 dark:border-border dark:from-muted/50 dark:hover:to-muted/50"
-									href="/auth/login">Login</a
+									class="relative rounded-md p-2 transition-colors duration-200 hover:bg-muted focus:ring-2 focus:ring-primary/50 focus:outline-none"
+									aria-label="Shopping cart"
 								>
+									<ShoppingCart size={20} class="text-foreground" />
+									<!-- Cart badge - you can make this dynamic later -->
+									<span class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+										0
+									</span>
+								</button>
 							</Motion>
+						{/if}
 
-							<Motion
-								whileHover={{ scale: 1.02 }}
-								whileTap={{ scale: 0.98 }}
-								let:motion
-							>
-								<a
-									use:motion
-									class="[&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 inline-flex h-8 items-center justify-center gap-2 rounded-md border border-primary bg-radial-[at_52%_-52%] from-primary/70 to-primary/95 px-3 text-xs font-medium whitespace-nowrap text-primary-foreground shadow-md ring-0 inset-shadow-2xs shadow-zinc-950/30 inset-shadow-white/25 transition-[filter] duration-200 **:[text-shadow:0_1px_0_var(--color-primary)] hover:brightness-125 focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-hidden active:brightness-95 disabled:pointer-events-none disabled:opacity-50 dark:border-0 dark:from-primary dark:to-primary/70 dark:inset-shadow-white dark:hover:to-primary"
-									href="/auth/signup">Sign Up</a
-								>
+						{#if user}
+							<!-- User Avatar - Logged in state -->
+							<Motion whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} let:motion>
+								<button use:motion class="flex items-center gap-2 focus:outline-none">
+									<CoffeeAvatar 
+										src={user.user_metadata?.avatar_url} 
+										alt={user.email || 'User'} 
+										{user}
+										size="default"
+									/>
+								</button>
 							</Motion>
-						</div>
+						{:else}
+							<!-- Cart for non-logged users on desktop -->
+							<div class="hidden lg:block">
+								<Motion whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} let:motion>
+									<button
+										use:motion
+										class="relative rounded-md p-2 transition-colors duration-200 hover:bg-muted focus:ring-2 focus:ring-primary/50 focus:outline-none"
+										aria-label="Shopping cart"
+									>
+										<ShoppingCart size={20} class="text-foreground" />
+										<span class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+											0
+										</span>
+									</button>
+								</Motion>
+							</div>
+							<!-- Auth Buttons - Desktop ONLY when not logged in -->
+							<div class="hidden items-center gap-3 lg:flex">
+								<Motion whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} let:motion>
+									<a
+										use:motion
+										class="[&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 inline-flex h-8 items-center justify-center gap-2 rounded-md border border-zinc-300 bg-linear-to-t from-muted to-background px-3 text-xs font-medium whitespace-nowrap shadow-xs shadow-zinc-950/10 transition-colors duration-200 hover:to-muted focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50 dark:border-border dark:from-muted/50 dark:hover:to-muted/50"
+										href="/auth/login">Login</a
+									>
+								</Motion>
+
+								<Motion
+									whileHover={{ scale: 1.02 }}
+									whileTap={{ scale: 0.98 }}
+									let:motion
+								>
+									<a
+										use:motion
+										class="[&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 inline-flex h-8 items-center justify-center gap-2 rounded-md border border-primary bg-radial-[at_52%_-52%] from-primary/70 to-primary/95 px-3 text-xs font-medium whitespace-nowrap text-primary-foreground shadow-md ring-0 inset-shadow-2xs shadow-zinc-950/30 inset-shadow-white/25 transition-[filter] duration-200 **:[text-shadow:0_1px_0_var(--color-primary)] hover:brightness-125 focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-hidden active:brightness-95 disabled:pointer-events-none disabled:opacity-50 dark:border-0 dark:from-primary dark:to-primary/70 dark:inset-shadow-white dark:hover:to-primary"
+										href="/auth/signup">Sign Up</a
+									>
+								</Motion>
+							</div>
+						{/if}
 
 						<!-- Mobile Menu Button -->
 						<Motion whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} let:motion>
@@ -217,19 +267,43 @@
 								</Motion>
 							{/each}
 
-							<!-- Mobile Auth Buttons -->
-							<Motion variants={menuItemVariants} custom={menuItems.length} let:motion>
-								<div use:motion class="flex flex-col gap-3 pt-4">
-									<a
-										class="[&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 inline-flex h-8 items-center justify-center gap-2 rounded-md border border-zinc-300 bg-linear-to-t from-muted to-background px-3 text-xs font-medium whitespace-nowrap shadow-xs shadow-zinc-950/10 transition-colors duration-200 hover:to-muted focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50 dark:border-border dark:from-muted/50 dark:hover:to-muted/50"
-										href="/auth/login">Login</a
-									>
-									<a
-										class="[&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 inline-flex h-8 items-center justify-center gap-2 rounded-md border border-primary bg-radial-[at_52%_-52%] from-primary/70 to-primary/95 px-3 text-xs font-medium whitespace-nowrap text-primary-foreground shadow-md ring-0 inset-shadow-2xs shadow-zinc-950/30 inset-shadow-white/25 transition-[filter] duration-200 **:[text-shadow:0_1px_0_var(--color-primary)] hover:brightness-125 focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-hidden active:brightness-95 disabled:pointer-events-none disabled:opacity-50 dark:border-0 dark:from-primary dark:to-primary/70 dark:inset-shadow-white dark:hover:to-primary"
-										href="/auth/signup">Sign Up</a
-									>
-								</div>
-							</Motion>
+							<!-- Mobile Auth Buttons - Only show when not logged in -->
+							{#if !user}
+								<Motion variants={menuItemVariants} custom={menuItems.length} let:motion>
+									<div use:motion class="flex flex-col gap-3 pt-4 border-t border-border/30">
+										<a
+											class="[&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 inline-flex h-10 items-center justify-center gap-2 rounded-md border border-zinc-300 bg-linear-to-t from-muted to-background px-3 text-sm font-medium whitespace-nowrap shadow-xs shadow-zinc-950/10 transition-colors duration-200 hover:to-muted focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50 dark:border-border dark:from-muted/50 dark:hover:to-muted/50"
+											href="/auth/login"
+											onclick={() => {
+												isMenuOpen = false;
+												menuControls.start('closed');
+											}}
+											>Login</a
+										>
+										<a
+											class="[&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 inline-flex h-10 items-center justify-center gap-2 rounded-md border border-primary bg-radial-[at_52%_-52%] from-primary/70 to-primary/95 px-3 text-sm font-medium whitespace-nowrap text-primary-foreground shadow-md ring-0 inset-shadow-2xs shadow-zinc-950/30 inset-shadow-white/25 transition-[filter] duration-200 **:[text-shadow:0_1px_0_var(--color-primary)] hover:brightness-125 focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-hidden active:brightness-95 disabled:pointer-events-none disabled:opacity-50 dark:border-0 dark:from-primary dark:to-primary/70 dark:inset-shadow-white dark:hover:to-primary"
+											href="/auth/signup"
+											onclick={() => {
+												isMenuOpen = false;
+												menuControls.start('closed');
+											}}
+											>Sign Up</a
+										>
+
+										<!-- Cart for mobile non-logged users -->
+										<button
+											class="inline-flex h-10 items-center justify-center gap-2 rounded-md border border-border bg-background px-3 text-sm font-medium transition-colors duration-200 hover:bg-accent hover:text-accent-foreground"
+											onclick={() => {
+												isMenuOpen = false;
+												menuControls.start('closed');
+											}}
+										>
+											<ShoppingCart size={16} />
+											Cart (0)
+										</button>
+									</div>
+								</Motion>
+							{/if}
 						</div>
 					</div>
 				</Motion>

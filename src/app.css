@@ -168,7 +168,7 @@
   * {
     @apply border-border outline-ring/50;
   }
-  
+    
   body {
     @apply bg-background text-foreground;
     /* Add subtle texture that mimics coffee shop ambiance */
@@ -300,4 +300,7 @@
   .alert-error {
     @apply bg-destructive/10 border-destructive/20 text-destructive;
   }
+
+  
 }
+
