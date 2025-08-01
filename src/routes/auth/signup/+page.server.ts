@@ -3,7 +3,7 @@ import type { Actions } from './$types';
 import { signupSchema } from '$lib/schemas/auth';
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ locals: { supabase, user, session } }) => {
+export const load: PageServerLoad = async ({ locals: { user, session } }) => {
     if(user && session){
         return redirect(303,'/')
     }
@@ -29,11 +29,8 @@ export const actions: Actions = {
 		const { data, error } = await supabase.auth.signUp({
 			email,
 			password,
-			options: {
-				emailRedirectTo: `${url.origin}/auth/confirm`,
-			},
 		});
-
+		
 		if (error) {
 			return fail(400, {
 				error: error.message,

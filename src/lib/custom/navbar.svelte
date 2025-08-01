@@ -27,23 +27,27 @@
 		}
 	}
 
-	// Menu animation variants
+	// Menu animation variants - Fixed timing and initial state
 	let menuVariants = {
 		open: {
 			opacity: 1,
 			height: 'auto',
+			display: 'block',
 			transition: {
-				duration: 0.4,
+				duration: 0.3,
 				ease: 'easeOut',
-				staggerChildren: 0.1,
+				staggerChildren: 0.08,
 				delayChildren: 0.1
 			}
 		},
 		closed: {
 			opacity: 0,
 			height: 0,
+			transitionEnd: {
+				display: 'none'
+			},
 			transition: {
-				duration: 0.3,
+				duration: 0.25,
 				ease: 'easeIn',
 				staggerChildren: 0.05,
 				staggerDirection: -1
@@ -56,12 +60,12 @@
 			y: 0,
 			opacity: 1,
 			transition: {
-				duration: 0.3,
+				duration: 0.25,
 				ease: 'easeOut'
 			}
 		},
 		closed: {
-			y: -20,
+			y: -15,
 			opacity: 0,
 			transition: {
 				duration: 0.2
@@ -178,13 +182,18 @@
 					</div>
 				</div>
 
-				<!-- Mobile Menu -->
-				<Motion animate={menuControls} variants={menuVariants} initial="closed" let:motion>
+				<!-- Mobile Menu - Fixed initial state -->
+				<Motion 
+					animate={menuControls} 
+					variants={menuVariants} 
+					initial="closed"
+					style={{ display: 'none' }}
+					let:motion
+				>
 					<div
 						use:motion
 						class={cn(
-							'overflow-hidden border-t border-border/30 lg:hidden',
-							!isMenuOpen && 'pointer-events-none'
+							'overflow-hidden border-t border-border/30 lg:hidden'
 						)}
 					>
 						<div class="space-y-4 px-4 py-6">
@@ -195,7 +204,10 @@
 										<a
 											href={item.path}
 											class="block text-base font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
-											onclick={() => (isMenuOpen = false)}
+											onclick={() => {
+												isMenuOpen = false;
+												menuControls.start('closed');
+											}}
 										>
 											{item.title}
 										</a>

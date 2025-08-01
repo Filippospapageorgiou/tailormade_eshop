@@ -1,9 +1,8 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { Button } from '$lib/components/ui/button';
-	import { Mail, ArrowLeft, RefreshCw } from 'lucide-svelte';
+	import { Mail, ArrowLeft, RefreshCw, Coffee, CheckCircle } from 'lucide-svelte';
 	import { enhance } from '$app/forms';
-
 
 	let email = $derived(page.url.searchParams.get('email') || '');
 	let loading = $state(false);
@@ -12,35 +11,50 @@
 
 <div class="flex min-h-screen items-center justify-center bg-background p-4">
 	<div class="w-full max-w-md space-y-8">
-		<!-- Success Icon -->
+		<!-- Success Icon with Coffee Theme -->
 		<div class="text-center">
-			<div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+			<div class="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 relative">
 				<Mail class="h-8 w-8 text-primary animate-pulse" />
+				<div class="absolute -top-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-primary">
+					<CheckCircle class="h-3 w-3 text-primary-foreground" />
+				</div>
 			</div>
-			<h1 class="text-2xl font-semibold tracking-tight">Check your email</h1>
+			<h1 class="text-2xl font-semibold tracking-tight text-foreground">Check your email</h1>
 			<p class="mt-2 text-sm text-muted-foreground">
 				We've sent a verification link to
 			</p>
 			{#if email}
-				<p class="mt-1 font-medium text-foreground">{email}</p>
+				<p class="mt-1 font-medium text-primary break-all">{email}</p>
 			{/if}
 		</div>
 
-		<!-- Instructions Card -->
-		<div class="rounded-lg border border-border bg-card p-6 space-y-4">
-			<h2 class="font-medium text-center">What's next?</h2>
-			<ol class="space-y-3 text-sm text-muted-foreground">
-				<li class="flex gap-3">
-					<span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-medium text-primary">1</span>
-					<span>Check your email inbox (and spam folder)</span>
+		<!-- Instructions Card with Coffee Theme -->
+		<div class="rounded-xl border border-border/50 bg-card p-6 space-y-4 product-card">
+			<div class="flex items-center gap-2 justify-center mb-4">
+				<Coffee class="h-5 w-5 text-primary" />
+				<h2 class="font-medium text-foreground">What's next?</h2>
+			</div>
+			<ol class="space-y-4 text-sm">
+				<li class="flex gap-3 items-start">
+					<span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">1</span>
+					<div>
+						<p class="font-medium text-foreground">Check your email inbox</p>
+						<p class="text-muted-foreground mt-1">Don't forget to check your spam folder too</p>
+					</div>
 				</li>
-				<li class="flex gap-3">
-					<span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-medium text-primary">2</span>
-					<span>Click the verification link in the email</span>
+				<li class="flex gap-3 items-start">
+					<span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">2</span>
+					<div>
+						<p class="font-medium text-foreground">Click the verification link</p>
+						<p class="text-muted-foreground mt-1">This will confirm your email address</p>
+					</div>
 				</li>
-				<li class="flex gap-3">
-					<span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-medium text-primary">3</span>
-					<span>You'll be redirected back to sign in</span>
+				<li class="flex gap-3 items-start">
+					<span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">3</span>
+					<div>
+						<p class="font-medium text-foreground">Welcome to our coffee family!</p>
+						<p class="text-muted-foreground mt-1">You'll be redirected to start your coffee journey</p>
+					</div>
 				</li>
 			</ol>
 		</div>
@@ -65,15 +79,19 @@
 				<input type="hidden" name="email" value={email} />
 				
 				{#if resent}
-					<div class="rounded-md bg-primary/10 p-3 text-center text-sm text-primary">
-						Verification email resent! Please check your inbox.
+					<div class="rounded-lg bg-primary/10 border border-primary/20 p-4 text-center">
+						<div class="flex items-center justify-center gap-2 mb-2">
+							<CheckCircle class="h-4 w-4 text-primary" />
+							<span class="text-sm font-medium text-primary">Email sent successfully!</span>
+						</div>
+						<p class="text-xs text-muted-foreground">Please check your inbox for the new verification email.</p>
 					</div>
 				{/if}
 
 				<Button 
 					type="submit" 
 					variant="outline" 
-					class="w-full" 
+					class="w-full border-border hover:bg-accent hover:text-accent-foreground transition-all duration-200 h-10" 
 					disabled={loading || resent}
 				>
 					{#if loading}
@@ -87,18 +105,21 @@
 			</form>
 		{/if}
 
-		<!-- Footer Links -->
-		<div class="space-y-3 text-center text-sm">
-			<div>
-				<span class="text-muted-foreground">Already verified? </span>
-				<a href="/auth/login" class="text-primary hover:underline">
-					Sign in
+		<!-- Footer Links with Coffee Theme -->
+		<div class="space-y-4 text-center text-sm">
+			<div class="p-4 bg-muted/30 rounded-lg border border-border/30">
+				<p class="text-muted-foreground mb-2">
+					<Coffee class="inline h-4 w-4 mr-1" />
+					Already verified your email?
+				</p>
+				<a href="/auth/login" class="text-primary hover:text-primary/80 font-medium hover:underline transition-colors duration-200">
+					Sign in to your account
 				</a>
 			</div>
 			
 			<a 
 				href="/auth/signup" 
-				class="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground"
+				class="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors duration-200"
 			>
 				<ArrowLeft class="h-3 w-3" />
 				Back to sign up
