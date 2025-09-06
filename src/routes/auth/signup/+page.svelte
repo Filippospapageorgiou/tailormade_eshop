@@ -135,6 +135,9 @@
 				<div class="text-center text-sm">
 					<span class="text-muted-foreground">Already have an account? </span>
 					<a href="/auth/login" class="text-primary hover:text-primary/80 hover:underline transition-colors duration-200 font-medium">Sign in</a>
+					<div class="text-center test-sm">
+						<a href="/" class="text-primary hover:text-primary/80 hover:underline transition-colors duration-200 font-medium">Continue as geuest</a>
+					</div>
 				</div>
 			</form>
 		</div>

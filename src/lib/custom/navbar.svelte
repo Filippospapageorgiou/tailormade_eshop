@@ -8,6 +8,7 @@
 
 	let logo = $state('/logo.png');
 	let isMenuOpen = $state(false);
+	let isOpen:boolean = $state(false);
 
 	// Get user from data
 	const { user } = $derived(data);
@@ -22,16 +23,25 @@
 
 	// Animation controls
 	let menuControls = useAnimation();
+	menuControls.start('closed');
 	let logoControls = useAnimation();
 
 	function toggleMenu() {
 		isMenuOpen = !isMenuOpen;
+		isOpen = false;
 		if (isMenuOpen) {
 			menuControls.start('open');
 		} else {
 			menuControls.start('closed');
 		}
 	}
+
+	$effect(() => {
+		if(isOpen === true){
+			isMenuOpen = false;
+			menuControls.start('closed');
+		}
+	})
 
 	// Menu animation variants - Fixed timing and initial state
 	let menuVariants = {
@@ -147,24 +157,22 @@
 
 					<!-- Right Side: Avatar/Auth + Cart + Mobile Menu -->
 					<div class="flex items-center gap-3">
-						<!-- Cart Icon - Always visible when user is logged in, desktop only when not logged in -->
 						{#if user}
-							<Motion whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} let:motion>
-								<button
-									use:motion
-									class="relative rounded-md p-2 transition-colors duration-200 hover:bg-muted focus:ring-2 focus:ring-primary/50 focus:outline-none"
-									aria-label="Shopping cart"
-								>
-									<ShoppingCart size={20} class="text-foreground" />
-									<!-- Cart badge - you can make this dynamic later -->
-									<span class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
-										0
-									</span>
-								</button>
-							</Motion>
-						{/if}
-
-						{#if user}
+						<!-- Cart for non-logged users on desktop -->
+							<div class="hidden lg:block">
+								<Motion whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} let:motion>
+									<button
+										use:motion
+										class="relative rounded-md p-2 transition-colors duration-200 hover:bg-muted focus:ring-2 focus:ring-primary/50 focus:outline-none"
+										aria-label="Shopping cart"
+									>
+										<ShoppingCart size={20} class="text-foreground" />
+										<span class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+											0
+										</span>
+									</button>
+								</Motion>
+							</div>
 							<!-- User Avatar - Logged in state -->
 							<Motion whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} let:motion>
 								<button use:motion class="flex items-center gap-2 focus:outline-none">
@@ -173,6 +181,7 @@
 										alt={user.email || 'User'} 
 										{user}
 										size="default"
+										bind:isOpen={isOpen}
 									/>
 								</button>
 							</Motion>
@@ -266,7 +275,6 @@
 									</div>
 								</Motion>
 							{/each}
-
 							<!-- Mobile Auth Buttons - Only show when not logged in -->
 							{#if !user}
 								<Motion variants={menuItemVariants} custom={menuItems.length} let:motion>
@@ -289,8 +297,11 @@
 											}}
 											>Sign Up</a
 										>
-
-										<!-- Cart for mobile non-logged users -->
+									</div>
+								</Motion>
+							{/if}
+							<Motion variants={menuItemVariants} custom={menuItems.length} let:motion>
+									<div use:motion class="flex flex-col gap-3">
 										<button
 											class="inline-flex h-10 items-center justify-center gap-2 rounded-md border border-border bg-background px-3 text-sm font-medium transition-colors duration-200 hover:bg-accent hover:text-accent-foreground"
 											onclick={() => {
@@ -302,8 +313,7 @@
 											Cart (0)
 										</button>
 									</div>
-								</Motion>
-							{/if}
+							</Motion>
 						</div>
 					</div>
 				</Motion>

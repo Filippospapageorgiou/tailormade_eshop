@@ -26,6 +26,26 @@ export const actions: Actions = {
 			});
 		}
 
+		//handle error if the email already exists
+		const { data: userExists, error:rpcError } = await supabase.rpc('user_exists', {
+			email_to_check: email
+		})
+
+		if(rpcError) { 
+			console.error('RPC Error:', rpcError);
+			return fail(500,{
+				error:"Something went wrong checking for the user. Pleasy try again later.",
+				email,
+			})
+		}
+
+		if (userExists) {
+            return fail(400, {
+                error: 'An account with this email already exists. Please try logging in.',
+                email,
+            });
+        }
+
 		const { data, error } = await supabase.auth.signUp({
 			email,
 			password,

@@ -19,7 +19,7 @@
         },
     ];
 
-    let isOpen = $state(false);
+    
     let isLoggingOut = $state(false);
 
      //  Ui List
@@ -69,6 +69,7 @@
 		size = "default",
 		class: className,
 		user,
+		isOpen = $bindable(),
 		...restProps
 	}: {
 		src?: string;
@@ -76,7 +77,9 @@
 		size?: "sm" | "default" | "lg";
 		class?: string;
 		user?: any;
+		isOpen:boolean
 	} = $props();
+
 
     async function handleLogout() {
         if(isLoggingOut) {return true;}
