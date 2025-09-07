@@ -66,17 +66,7 @@
 	};
 </script>
 
-<section class="relative min-h-screen flex items-center justify-center px-4 py-24 md:py-32 overflow-hidden">
-	<!-- Subtle background gradient -->
-	<div class="absolute inset-0 bg-gradient-to-br from-background via-background to-secondary/5"></div>
-	
-	<!-- Floating coffee beans decoration (subtle) -->
-	<div class="absolute inset-0 overflow-hidden pointer-events-none">
-		<div class="absolute top-20 right-10 w-2 h-2 bg-primary/20 rounded-full animate-float-slow"></div>
-		<div class="absolute top-40 left-20 w-3 h-3 bg-primary/15 rounded-full animate-float-medium"></div>
-		<div class="absolute bottom-40 right-40 w-2 h-2 bg-primary/10 rounded-full animate-float-slow"></div>
-	</div>
-
+<section class="relative min-h-screen flex items-center justify-center text-left px-4 py-24 md:py-32 overflow-hidden">
 	<div class="relative z-10 max-w-7xl mx-auto w-full">
 		<div class="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
 			<!-- Text Content -->
@@ -106,6 +96,10 @@
 						</h1>
 					</div>
 				</Motion>
+				<div class="text-2xl pt-4">
+					<p class="">We are tailor made coffee roaster we are here</p>
+					<p>becuase we want to make you get the best coffee expirience</p>
+				</div>
 			</div>
 
 			<!-- Photo Grid -->
