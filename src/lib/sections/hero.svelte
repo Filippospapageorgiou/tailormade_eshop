@@ -10,7 +10,7 @@
 	let mounted = $state(false);
 
 	// Staggered text animation
-	const words = ['Sourced', 'Roasted', 'Delivered'];
+	const words = ['Crafted', 'Roasted', 'Delivered'];
 	let visibleWords = $state<number[]>([]);
 
 	onMount(async () => {
@@ -89,7 +89,7 @@
 					<div use:motion class="space-y-6">
 						<!-- Main Title -->
 						<h1 class="text-5xl md:text-6xl lg:text-7xl font-light tracking-tight text-foreground">
-							Artisan Coffee,
+							TailorMade Coffee,
 							<span class="block text-primary font-normal mt-2">
 								{#each words as word, i}
 									<span 
@@ -104,65 +104,6 @@
 								{/each}
 							</span>
 						</h1>
-					</div>
-				</Motion>
-
-				<Motion
-					initial={{ opacity: 0, y: 20 }}
-					animate={subtitleControls}
-					let:motion
-				>
-					<div use:motion class="space-y-8">
-						<!-- Subtitle -->
-						<p class="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-lg">
-							From the world's finest coffee regions to your doorstep. 
-							Experience the journey in every cup.
-						</p>
-
-						<!-- CTA Buttons -->
-						<div class="flex flex-col sm:flex-row gap-4">
-							<Motion
-								whileHover={{ scale: 1.02 }}
-								whileTap={{ scale: 0.98 }}
-								let:motion
-							>
-								<Button 
-									class="btn-coffee px-8 py-6 text-base group"
-								>
-									Explore Collection
-									<ArrowRight class="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-								</Button>
-							</Motion>
-							
-							<Motion
-								whileHover={{ scale: 1.02 }}
-								whileTap={{ scale: 0.98 }}
-								let:motion
-							>
-								<Button 
-									variant="outline"
-									class="px-8 py-6 text-base border-2"
-								>
-									Our Story
-								</Button>
-							</Motion>
-						</div>
-
-						<!-- Trust Badges -->
-						<div class="flex flex-wrap gap-6 text-sm text-muted-foreground pt-4">
-							<span class="flex items-center gap-2">
-								<Coffee class="h-4 w-4 text-primary" />
-								Family Owned
-							</span>
-							<span class="flex items-center gap-2">
-								<Coffee class="h-4 w-4 text-primary" />
-								Small Batch
-							</span>
-							<span class="flex items-center gap-2">
-								<Coffee class="h-4 w-4 text-primary" />
-								Ethically Sourced
-							</span>
-						</div>
 					</div>
 				</Motion>
 			</div>

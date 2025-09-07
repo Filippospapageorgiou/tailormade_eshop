@@ -146,13 +146,6 @@
 			onclick={handleAvatarClick}
 			class={cn(
 				"relative rounded-full transition-all duration-200 overflow-hidden cursor-pointer",
-				// Beautiful gradient border like your buttons
-				"bg-gradient-to-br from-primary/20 via-primary/40 to-primary/20 p-0.5",
-				// Hover effects
-				"hover:from-primary/30 hover:via-primary/50 hover:to-primary/30",
-				"hover:scale-105 hover:shadow-md hover:shadow-primary/20",
-				// Focus states
-				"focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:outline-none",
 				sizeClasses[size],
 				className
 			)}
@@ -162,10 +155,6 @@
 			<div 
 				class={cn(
 					"relative h-full w-full rounded-full overflow-hidden",
-					// Coffee-themed gradient background
-					"bg-gradient-to-br from-muted via-background to-muted/80",
-					// Subtle inner shadow for depth
-					"shadow-inner"
 				)}
 			>
 				{#if src}

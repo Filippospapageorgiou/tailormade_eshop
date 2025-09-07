@@ -11,7 +11,7 @@ export const load: PageServerLoad = async ({ locals: { supabase, user, session }
 }
 
 export const actions: Actions = {
-    default :async({request, locals:{ supabase }}) =>{
+    loginWithEmail :async({request, locals:{ supabase }}) =>{
         const formData = await request.formData();
 
         const email = formData.get('email') as string;
@@ -39,5 +39,44 @@ export const actions: Actions = {
         }
 
         redirect(303,'/');
-    }
+    },
+
+    loginWithGoogle: async({locals: {supabase}, url}) => {
+        const {data , error} = await supabase.auth.signInWithOAuth({
+            provider: 'google',
+            options:{
+                // This is the URL that Supabase will redirect the user back to after authentication.
+				// It must match the site URL configured in your Supabase project.
+				redirectTo: `${url.origin}/auth/callback`
+            }
+        });
+
+        if(error){
+            console.error('Error logging in with Google:' ,error);
+            return fail(400, {
+                error: 'Could not log in with Google. Please try again.'
+            });
+        }
+
+        if(data.url){
+            redirect(303, data.url)
+        }
+    },
+    loginWithFacebook: async ({ locals: { supabase }, url }) => {
+		const { data, error } = await supabase.auth.signInWithOAuth({
+			provider: 'facebook',
+			options: {
+				redirectTo: `${url.origin}/auth/callback`
+			}
+		});
+
+		if (error) {
+			console.error('Error logging in with Facebook:', error);
+			return fail(400, { error: 'Could not log in with Facebook. Please try again.' });
+		}
+
+		if (data.url) {
+			redirect(303, data.url);
+		}
+	}
 }
