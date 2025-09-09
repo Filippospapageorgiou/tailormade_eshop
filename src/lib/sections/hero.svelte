@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Motion, useAnimation } from 'svelte-motion';
 	import { onMount } from 'svelte';
-	import { ArrowRight, Coffee } from 'lucide-svelte';
+	import { ArrowRight } from 'lucide-svelte';
 	import { Button } from '$lib/components/ui/button';
 
 	let titleControls = useAnimation();
@@ -15,7 +15,14 @@
 
 	onMount(async () => {
 		mounted = true;
-		
+
+		// Animate subtitle and buttons
+		subtitleControls.start({
+			opacity: 1,
+			y: 0,
+			transition: { duration: 0.6, ease: 'easeOut', delay: 0.2 }
+		});
+
 		// Animate title
 		await titleControls.start({
 			opacity: 1,
@@ -26,15 +33,8 @@
 		// Animate words one by one
 		for (let i = 0; i < words.length; i++) {
 			visibleWords = [...visibleWords, i];
-			await new Promise(resolve => setTimeout(resolve, 300));
+			await new Promise((resolve) => setTimeout(resolve, 300));
 		}
-
-		// Animate subtitle
-		await subtitleControls.start({
-			opacity: 1,
-			y: 0,
-			transition: { duration: 0.6, ease: 'easeOut', delay: 0.2 }
-		});
 
 		// Animate photos
 		photoControls.start({
@@ -44,12 +44,28 @@
 		});
 	});
 
-	// Photo grid items with different sizes
+	// Photo grid items with different sizes and improved alt text
 	const photos = [
-		{ src: '/tailor1.png', alt: 'Mountain landscape', size: 'large' },
-		{ src: '/tailor2.png', alt: 'Coffee farm sunset', size: 'medium' },
-		{ src: '/tailor3.png', alt: 'Natural scenery', size: 'medium' },
-		{ src: '/tailor4.png', alt: 'Autumn landscape', size: 'small' }
+		{
+			src: '/tailor1.png',
+			alt: 'Barista carefully preparing a coffee at TailorMade Coffee Roasters',
+			size: 'large'
+		},
+		{
+			src: '/tailor2.png',
+			alt: 'The interior of a modern and bright TailorMade coffee shop',
+			size: 'medium'
+		},
+		{
+			src: '/tailor3.png',
+			alt: 'An assortment of TailorMade coffee beans and products on display',
+			size: 'medium'
+		},
+		{
+			src: '/tailor4.png',
+			alt: 'The brew bar and counter at a TailorMade coffee shop',
+			size: 'small'
+		}
 	];
 
 	const photoVariants = {
@@ -66,24 +82,22 @@
 	};
 </script>
 
-<section class="relative min-h-screen flex items-center justify-center text-left px-4 py-24 md:py-32 overflow-hidden">
-	<div class="relative z-10 max-w-7xl mx-auto w-full">
-		<div class="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-			<!-- Text Content -->
+<section
+	class="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-24 text-left md:py-32"
+>
+	<div class="relative z-10 mx-auto w-full max-w-7xl">
+		<div class="grid items-center gap-16 lg:grid-cols-2 lg:gap-24">
 			<div class="space-y-8">
-				<Motion
-					initial={{ opacity: 0, y: 20 }}
-					animate={titleControls}
-					let:motion
-				>
+				<Motion initial={{ opacity: 0, y: 20 }} animate={titleControls} let:motion>
 					<div use:motion class="space-y-6">
-						<!-- Main Title -->
-						<h1 class="text-5xl md:text-6xl lg:text-7xl font-light tracking-tight text-foreground">
+						<h1 class="text-5xl font-light tracking-tight text-foreground md:text-6xl lg:text-7xl">
 							TailorMade Coffee,
-							<span class="block text-primary font-normal mt-2">
+							<span class="mt-2 block font-normal text-primary">
 								{#each words as word, i}
-									<span 
-										class="inline-block transition-all duration-500 {visibleWords.includes(i) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}"
+									<span
+										class="inline-block transition-all duration-500 {visibleWords.includes(i)
+											? 'translate-y-0 opacity-100'
+											: 'translate-y-4 opacity-0'}"
 										style="transition-delay: {i * 300}ms"
 									>
 										{word}{i < words.length - 1 ? '.' : ''}
@@ -96,13 +110,24 @@
 						</h1>
 					</div>
 				</Motion>
-				<div class="text-2xl pt-4">
-					<p class="">We are tailor made coffee roaster we are here</p>
-					<p>becuase we want to make you get the best coffee expirience</p>
-				</div>
+
+				<Motion initial={{ opacity: 0, y: 20 }} animate={subtitleControls} let:motion>
+					<div use:motion>
+						<p class="max-w-lg text-lg text-muted-foreground md:text-xl">
+							Experience the art of specialty coffee, roasted to perfection and delivered fresh to
+							your door.
+						</p>
+
+						<div class="mt-8 flex flex-col gap-4 sm:flex-row">
+							<Button size="lg" href="/" class="btn-coffee">
+								See our collection <ArrowRight class="ml-2 h-5 w-5" />
+							</Button>
+							<Button size="lg" variant="outline" href="/about">Our Story</Button>
+						</div>
+					</div>
+				</Motion>
 			</div>
 
-			<!-- Photo Grid -->
 			<Motion
 				initial="hidden"
 				animate={photoControls}
@@ -116,94 +141,75 @@
 				let:motion
 			>
 				<div use:motion class="relative h-[600px] lg:h-[700px]">
-					<!-- Photo 1 - Large -->
 					<Motion
 						custom={0}
 						variants={photoVariants}
 						initial="hidden"
-						animate={mounted ? "visible" : "hidden"}
+						animate={mounted ? 'visible' : 'hidden'}
 						whileHover={{ scale: 1.02, transition: { duration: 0.3 } }}
 						let:motion
 					>
-						<div 
+						<div
 							use:motion
-							class="absolute top-0 left-0 w-[55%] h-[55%] rounded-2xl overflow-hidden shadow-xl"
+							class="absolute top-0 left-0 h-[50%] w-[60%] overflow-hidden rounded-2xl shadow-xl"
 						>
-							<img 
-								src={photos[0].src}
-								alt="Mountain coffee origin"
-								class="w-full h-full object-cover"
-							/>
+							<img src={photos[0].src} alt={photos[0].alt} class="h-full w-full object-cover" />
 							<div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
 						</div>
 					</Motion>
 
-					<!-- Photo 2 - Medium -->
 					<Motion
 						custom={1}
 						variants={photoVariants}
 						initial="hidden"
-						animate={mounted ? "visible" : "hidden"}
+						animate={mounted ? 'visible' : 'hidden'}
 						whileHover={{ scale: 1.02, transition: { duration: 0.3 } }}
 						let:motion
 					>
-						<div 
+						<div
 							use:motion
-							class="absolute top-8 right-0 w-[48%] h-[40%] rounded-2xl overflow-hidden shadow-lg"
+							class="absolute top-12 right-0 h-[45%] w-[55%] overflow-hidden rounded-2xl shadow-lg"
 						>
-							<img 
-								src={photos[1].src}
-								alt="Coffee farm landscape"
-								class="w-full h-full object-cover"
-							/>
+							<img src={photos[1].src} alt={photos[1].alt} class="h-full w-full object-cover" />
 						</div>
 					</Motion>
 
-					<!-- Photo 3 - Medium -->
 					<Motion
 						custom={2}
 						variants={photoVariants}
 						initial="hidden"
-						animate={mounted ? "visible" : "hidden"}
+						animate={mounted ? 'visible' : 'hidden'}
 						whileHover={{ scale: 1.02, transition: { duration: 0.3 } }}
 						let:motion
 					>
-						<div 
+						<div
 							use:motion
-							class="absolute bottom-0 left-8 w-[45%] h-[38%] rounded-2xl overflow-hidden shadow-lg"
+							class="absolute bottom-6 left-2 h-[43%] w-[47%] overflow-hidden rounded-2xl shadow-lg"
 						>
-							<img 
-								src={photos[2].src}
-								alt="Natural scenery"
-								class="w-full h-full object-cover"
-							/>
+							<img src={photos[2].src} alt={photos[2].alt} class="h-full w-full object-cover" />
 						</div>
 					</Motion>
 
-					<!-- Photo 4 - Small accent -->
 					<Motion
 						custom={3}
 						variants={photoVariants}
 						initial="hidden"
-						animate={mounted ? "visible" : "hidden"}
+						animate={mounted ? 'visible' : 'hidden'}
 						whileHover={{ scale: 1.02, transition: { duration: 0.3 } }}
 						let:motion
 					>
-						<div 
+						<div
 							use:motion
-							class="absolute bottom-12 right-4 w-[35%] h-[30%] rounded-2xl overflow-hidden shadow-md"
+							class="absolute right-2 bottom-0 h-[40%] w-[46%] overflow-hidden rounded-2xl shadow-md"
 						>
-							<img 
-								src={photos[3].src}
-								alt="Coffee journey"
-								class="w-full h-full object-cover"
-							/>
+							<img src={photos[3].src} alt={photos[3].alt} class="h-full w-full object-cover" />
 							<div class="absolute inset-0 bg-primary/10"></div>
 						</div>
 					</Motion>
 
-					<!-- Decorative element -->
-					<div class="absolute -bottom-4 -right-4 w-32 h-32 bg-primary/5 rounded-full blur-3xl"></div>
+					<div
+						class="absolute -right-4 -bottom-4 h-32 w-32 rounded-full bg-primary/5 blur-3xl"
+					></div>
 				</div>
 			</Motion>
 		</div>
@@ -211,21 +217,31 @@
 </section>
 
 <style>
-	@keyframes float-slow {
-		0%, 100% { transform: translateY(0) rotate(0deg); }
-		50% { transform: translateY(-20px) rotate(180deg); }
+	@keyframes tm-float-slow {
+		0%,
+		100% {
+			transform: translateY(0) rotate(0deg);
+		}
+		50% {
+			transform: translateY(-20px) rotate(180deg);
+		}
 	}
-	
-	@keyframes float-medium {
-		0%, 100% { transform: translateY(0) rotate(0deg); }
-		50% { transform: translateY(-15px) rotate(-180deg); }
+
+	@keyframes tm-float-medium {
+		0%,
+		100% {
+			transform: translateY(0) rotate(0deg);
+		}
+		50% {
+			transform: translateY(-15px) rotate(-180deg);
+		}
 	}
-	
-	:global(.animate-float-slow) {
-		animation: float-slow 8s ease-in-out infinite;
+
+	:global(.animate-tm-float-slow) {
+		animation: tm-float-slow 8s ease-in-out infinite;
 	}
-	
-	:global(.animate-float-medium) {
-		animation: float-medium 6s ease-in-out infinite;
+
+	:global(.animate-tm-float-medium) {
+		animation: tm-float-medium 6s ease-in-out infinite;
 	}
 </style>

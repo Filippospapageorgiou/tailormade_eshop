@@ -16,7 +16,7 @@
 	const menuItems = $state([
 		{ title: 'Franchise', path: '/', hasDropdown: false },
 		{ title: 'Shop', path: '/', hasDropdown: true },
-		{ title: 'Pricing', path: '/', hasDropdown: false },
+		{ title: 'Locations', path: '/', hasDropdown: false },
 		{ title: 'About', path: '/', hasDropdown: false },
 		{ title: 'Blog', path: '/', hasDropdown: false }
 	]);

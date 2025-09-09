@@ -139,6 +139,12 @@
 					</div>
 				</div>
 
+				<!-- Privacy Policy Notice -->
+				<div class="text-xs text-muted-foreground leading-relaxed">
+					Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our 
+					<a href="/privacy-policy" class="text-primary hover:text-primary/80 hover:underline transition-colors duration-200">privacy policy</a>.
+				</div>
+
 				<Button type="submit" class="w-full btn-coffee h-10 font-medium" disabled={loading}>
 					{#if loading}
 						<div class="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-primary-foreground border-t-transparent"></div>
@@ -151,8 +157,8 @@
 				<div class="text-center text-sm">
 					<span class="text-muted-foreground">Already have an account? </span>
 					<a href="/auth/login" class="text-primary hover:text-primary/80 hover:underline transition-colors duration-200 font-medium">Login</a>
-					<div class="text-center test-sm">
-						<a href="/" class="text-primary hover:text-primary/80 hover:underline transition-colors duration-200 font-medium">Continue as geuest</a>
+					<div class="text-center text-sm">
+						<a href="/" class="text-primary hover:text-primary/80 hover:underline transition-colors duration-200 font-medium">Continue as guest</a>
 					</div>
 				</div>
 			</form>

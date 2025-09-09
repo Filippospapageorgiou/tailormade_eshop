@@ -5,12 +5,14 @@
         ShoppingBasket,
         LogOutIcon,
         UserCircleIcon,
-        Loader2
+        Loader2,
+		HeartIcon
     } from "lucide-svelte";
 
     let items = [
-        { icon: UserCircleIcon, name : "My Account", href: "/account" },
-        { icon: ShoppingBasket, name : "My Orders", href: "/orders"},
+        { icon: UserCircleIcon, name : "My Account", href: "/" },
+        { icon: ShoppingBasket, name : "My Orders", href: "/"},
+		{ icon: HeartIcon, name:"My Fvaroites", href:"/"},
         {
             icon: LogOutIcon,
             name: "Logout",
