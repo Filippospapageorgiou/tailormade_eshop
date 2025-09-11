@@ -83,7 +83,7 @@
 </script>
 
 <section
-	class="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-24 text-left md:py-32"
+	class="relative flex h-auto items-center justify-center overflow-hidden px-4 py-24 text-left md:py-32"
 >
 	<div class="relative z-10 mx-auto w-full max-w-7xl">
 		<div class="grid items-center gap-16 lg:grid-cols-2 lg:gap-24">
