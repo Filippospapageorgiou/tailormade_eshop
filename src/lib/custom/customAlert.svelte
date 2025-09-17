@@ -30,7 +30,7 @@
 
 {#if toast.show}
     <div 
-        class="z-[52] fixed top-4 left-1/2 transform -translate-x-1/2 w-full max-w-md px-4"
+        class="z-[52] fixed top-32 left-1/2 transform -translate-x-1/2 w-full max-w-md px-4"
         transition:fly={{ y: -50, duration: 400, easing: quintOut }}
     >
         {#if toast.status}

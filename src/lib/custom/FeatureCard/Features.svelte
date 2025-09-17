@@ -72,7 +72,7 @@
 
 <section id="features">
   <div class="flex flex-row items-center justify-center pb-12">
-    <div class="mx-auto max-w-7xl">
+        <div class="mx-auto w-7xl">
       <div class="mx-auto my-12 grid h-full items-center gap-10 lg:grid-cols-2">
         <div
           class="order-1 hidden lg:order-none lg:flex {ltr
@@ -84,7 +84,7 @@
               <div class="relative flex items-center mb-8 last:mb-0">
                 {#if linePosition === "left" || linePosition === "right"}
                   <div
-                    class="absolute inset-y-0 h-full w-0.5 overflow-hidden rounded-lg bg-primary dark:bg-primary {linePosition ===
+                    class="absolute inset-y-0 h-full w-0.5 overflow-hidden rounded-lg bg-neutral-300/50 dark:bg-neutral-300/30 {linePosition ===
                     'right'
                       ? 'left-auto right-0'
                       : 'left-0 right-auto'}"

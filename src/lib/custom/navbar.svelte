@@ -3,6 +3,7 @@
 	import { Menu, X, ChevronDown, ShoppingCart } from 'lucide-svelte';
 	import { cn } from '$lib/utils';
 	import CoffeeAvatar from './CoffeeAvatar.svelte';
+	import Badge from '$lib/components/ui/badge/badge.svelte';
 
 	let { data } = $props();
 
@@ -167,9 +168,7 @@
 										aria-label="Shopping cart"
 									>
 										<ShoppingCart size={20} class="text-foreground" />
-										<span class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
-											0
-										</span>
+										<Badge class="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center" >0</Badge>
 									</button>
 								</Motion>
 							</div>

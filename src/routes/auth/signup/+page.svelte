@@ -31,7 +31,10 @@
 		<div class="w-full max-w-md space-y-8 rounded-xl border border-border/50 bg-card p-8 shadow-lg">
 			<div class="text-center">
 				<h1 class="text-2xl font-semibold tracking-tight text-foreground">Create an account</h1>
-				<p class="mt-2 text-sm text-muted-foreground">
+				<p class="mt-1 text-sm text-muted-foreground">
+					By signing up, you’ll join our newsletter.
+				</p>
+				<p class="text-sm text-muted-foreground">
 					Join us for the finest coffee experience
 				</p>
 			</div>
